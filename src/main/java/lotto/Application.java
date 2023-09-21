@@ -7,14 +7,14 @@ public class Application {
 		System.out.printf("구입금액을 입력해 주세요.%n");
 		String purchaseAmount = Console.readLine();
 
-		Input userInput = new Input();
+		Purchase purchase = new Purchase();
 
-		int userPurchaseTime = userInput.purchaseTime(purchaseAmount);
+		int userPurchaseTime = purchase.purchaseTime(purchaseAmount);
 
 	}
 }
 
-class Input {
+class Purchase {
 	final int lottoPrice = 1000;
 
 	int purchaseTime(String purchaseAmount) {
