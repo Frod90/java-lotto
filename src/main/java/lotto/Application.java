@@ -1,6 +1,10 @@
 package lotto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import camp.nextstep.edu.missionutils.Console;
+import camp.nextstep.edu.missionutils.Randoms;
 
 public class Application {
 	public static void main(String[] args) {
@@ -10,7 +14,20 @@ public class Application {
 		Purchase purchase = new Purchase();
 
 		int userPurchaseTime = purchase.purchaseTime(purchaseAmount);
+		List<List<Integer>> lottoList = lottoNumber(userPurchaseTime);
 
+		for(int i=0; i < userPurchaseTime; i++) {
+			System.out.println(lottoList.get(i));
+		}
+	}
+
+	static List<List<Integer>> lottoNumber(int purchaseTime) {
+		List<List<Integer>> lottoList = new ArrayList<>();
+		for (int i=0; i < purchaseTime; i++) {
+			List<Integer> lottoNumber = Randoms.pickUniqueNumbersInRange(1, 45, 6);
+			lottoList.add(lottoNumber);
+		}
+		return lottoList;
 	}
 }
 
@@ -28,3 +45,4 @@ class Purchase {
 	}
 
 }
+
