@@ -21,6 +21,18 @@ public class Application {
 			System.out.println(lottoList.get(i));
 		}
 
+		WinningNumber win = new WinningNumber();
+
+		System.out.printf("당첨 번호를 입력해 주세요.%n");
+		String inputWinningNumber = Console.readLine();
+		List<Integer> winningNumberTest = win.winningNumber(inputWinningNumber);
+		Lotto winningNumber = new Lotto(winningNumberTest);
+
+		System.out.printf("보너스 번호를 입력해 주세요.%n");
+		String inputBonusNumber = Console.readLine();
+		int bonusNumber = Integer.parseInt(inputBonusNumber);
+		win.bonusNumberTest(bonusNumber);
+
 	}
 
 	static List<List<Integer>> lottoNumber(int purchaseTime) {
@@ -35,17 +47,41 @@ public class Application {
 }
 
 class Purchase {
-	final int lottoPrice = 1000;
+	final int LOTTO_PRICE = 1000;
 
 	int purchaseTime(String purchaseAmount) {
 		int userPurchaseAmount = Integer.parseInt(purchaseAmount);
-		int PurchaseTest = userPurchaseAmount % lottoPrice;
+		int PurchaseTest = userPurchaseAmount % LOTTO_PRICE;
 
 		if (!(PurchaseTest == 0)) {
 			throw new IllegalArgumentException("[ERROR] 로또는 1000원 단위로 구매 가능합니다.");
 		}
-		return userPurchaseAmount / lottoPrice;
+		return userPurchaseAmount / LOTTO_PRICE;
 	}
 
 }
 
+class WinningNumber {
+
+	List<Integer> winningNumberTest = new ArrayList<>();
+
+	List<Integer> winningNumber(String inputWinningNumber) {
+		String[] splitInputWinningNumber = inputWinningNumber.split(",");
+
+		for (int i = 0; i < splitInputWinningNumber.length; i++) {
+			int eachSplitInputWinningNumber = Integer.parseInt(splitInputWinningNumber[i]);
+			if (!winningNumberTest.contains(eachSplitInputWinningNumber)) {
+				winningNumberTest.add(eachSplitInputWinningNumber);
+			}
+		}
+
+		return winningNumberTest;
+	}
+
+	void bonusNumberTest(int bonusNumber) {
+		if (winningNumberTest.contains(bonusNumber)) {
+			throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
+		}
+	}
+
+}
