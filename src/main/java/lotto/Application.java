@@ -27,15 +27,17 @@ enum Prize {
 public class Application {
 	public static void main(String[] args) {
 		System.out.printf("구입금액을 입력해 주세요.%n");
-		String inuptPurchaseAmount = Console.readLine();
+		String inputPurchaseAmount = Console.readLine();
 
 		Purchase purchase = new Purchase();
 
-		int PurchaseTime = purchase.purchaseTime(inuptPurchaseAmount);
+		int PurchaseTime;
+		PurchaseTime = purchase.purchaseTime(inputPurchaseAmount);
+
 		System.out.println();
 		System.out.println(PurchaseTime + "개를 구매했습니다.");
 
-		List<List<Integer>> lottoList = lottoNumber(PurchaseTime);
+		List<List<Integer>> lottoList = new ArrayList<>(lottoNumber(PurchaseTime));
 
 		for (int i = 0; i < PurchaseTime; i++) {
 			System.out.println(lottoList.get(i));
@@ -65,14 +67,15 @@ public class Application {
 
 		Prize[] PRIZE_ARR = Prize.values();
 
-		resultPrint(winningList, PRIZE_ARR, inuptPurchaseAmount);
+		resultPrint(winningList, PRIZE_ARR, inputPurchaseAmount);
 
 	}
 
 	static List<List<Integer>> lottoNumber(int purchaseTime) {
 		List<List<Integer>> lottoList = new ArrayList<>();
 		for (int i = 0; i < purchaseTime; i++) {
-			List<Integer> lottoNumber = Randoms.pickUniqueNumbersInRange(1, 45, 6);
+			List<Integer> lottoNumber = new ArrayList<>(Randoms.pickUniqueNumbersInRange(1, 45, 6));
+
 			Collections.sort(lottoNumber);
 			lottoList.add(lottoNumber);
 		}
