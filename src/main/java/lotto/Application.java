@@ -3,6 +3,7 @@ package lotto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
@@ -50,6 +51,7 @@ public class Application {
 		System.out.printf("당첨 번호를 입력해 주세요.%n");
 		String inputWinningNumber = Console.readLine();
 		List<Integer> winningNumber = win.winningNumber(inputWinningNumber);
+
 		new Lotto(winningNumber);
 
 		System.out.println();
@@ -116,6 +118,22 @@ class Purchase {
 	final int LOTTO_PRICE = 1000;
 
 	int purchaseTime(String purchaseAmount) {
+
+		boolean errorTest = false;
+
+		try {
+			Integer.parseInt(purchaseAmount);
+		} catch (IllegalArgumentException ill) {
+
+			errorTest = true;
+
+		}
+
+		if(errorTest){
+			System.out.println("[ERROR] 숫자만 입력해주세요.");
+			throw new NoSuchElementException("[ERROR] 숫자만 입력해주세요.");
+		}
+
 		int userPurchaseAmount = Integer.parseInt(purchaseAmount);
 		int PurchaseTest = userPurchaseAmount % LOTTO_PRICE;
 
@@ -137,9 +155,12 @@ class WinningNumber {
 
 		for (int i = 0; i < splitInputWinningNumber.length; i++) {
 			int eachSplitInputWinningNumber = Integer.parseInt(splitInputWinningNumber[i]);
-			if (!winningNumberTest.contains(eachSplitInputWinningNumber)) {
-				winningNumberTest.add(eachSplitInputWinningNumber);
+
+			if (eachSplitInputWinningNumber < 1 || 45 < eachSplitInputWinningNumber) {
+				throw new IllegalArgumentException("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
 			}
+
+			winningNumberTest.add(eachSplitInputWinningNumber);
 		}
 
 		return winningNumberTest;
