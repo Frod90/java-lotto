@@ -40,10 +40,6 @@ public class Application {
 
 		List<List<Integer>> lottoList = new ArrayList<>(lottoNumber(PurchaseTime));
 
-		for (int i = 0; i < PurchaseTime; i++) {
-			System.out.println(lottoList.get(i));
-		}
-
 		System.out.println();
 
 		WinningNumber win = new WinningNumber();
@@ -81,6 +77,11 @@ public class Application {
 			Collections.sort(lottoNumber);
 			lottoList.add(lottoNumber);
 		}
+
+		for (int i = 0; i < purchaseTime; i++) {
+			System.out.println(lottoList.get(i));
+		}
+
 		return lottoList;
 	}
 
@@ -129,7 +130,7 @@ class Purchase {
 
 		}
 
-		if(errorTest){
+		if (errorTest) {
 			System.out.println("[ERROR] 숫자만 입력해주세요.");
 			throw new NoSuchElementException("[ERROR] 숫자만 입력해주세요.");
 		}
