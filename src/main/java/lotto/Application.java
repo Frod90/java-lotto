@@ -22,7 +22,6 @@ enum Prize {
 		this.money = money;
 
 	}
-
 }
 
 public class Application {
@@ -111,7 +110,6 @@ public class Application {
 		System.out.printf("총 수익률은 %.1f%%입니다.", summary * 100);
 
 	}
-
 }
 
 class Purchase {
@@ -124,9 +122,7 @@ class Purchase {
 		try {
 			Integer.parseInt(purchaseAmount);
 		} catch (IllegalArgumentException ill) {
-
 			errorTest = true;
-
 		}
 
 		if (errorTest) {
@@ -143,7 +139,6 @@ class Purchase {
 		}
 		return userPurchaseAmount / LOTTO_PRICE;
 	}
-
 }
 
 class WinningNumber {
@@ -172,7 +167,6 @@ class WinningNumber {
 			throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
 		}
 	}
-
 }
 
 class Hit {
@@ -200,7 +194,6 @@ class Hit {
 		}
 		return winningHitList;
 	}
-
 }
 
 
