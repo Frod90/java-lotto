@@ -59,10 +59,6 @@ public class Application {
 		Hit hit = new Hit();
 		List<String> winningList = hit.winningHitList(lottoList, winningNumber, bonusNumber);
 
-		System.out.println();
-		System.out.println("당첨 통계");
-		System.out.println("---");
-
 		Prize[] PRIZE_ARR = Prize.values();
 
 		resultPrint(winningList, PRIZE_ARR, inputPurchaseAmount);
@@ -94,6 +90,9 @@ public class Application {
 	}
 
 	static void resultPrint(List<String> winningList, Prize[] PRIZE_ARR, String inputPurchaseAmount) {
+		System.out.println();
+		System.out.println("당첨 통계");
+		System.out.println("---");
 
 		double sum = 0;
 
