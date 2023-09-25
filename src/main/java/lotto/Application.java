@@ -134,7 +134,7 @@ class Purchase {
 		int PurchaseTest = userPurchaseAmount % LOTTO_PRICE;
 
 		if (!(PurchaseTest == 0)) {
-
+			System.out.println("[ERROR] 로또는 1000원 단위로 구매 가능합니다.");
 			throw new IllegalArgumentException("[ERROR] 로또는 1000원 단위로 구매 가능합니다.");
 		}
 		return userPurchaseAmount / LOTTO_PRICE;
@@ -149,9 +149,23 @@ class WinningNumber {
 		String[] splitInputWinningNumber = inputWinningNumber.split(",");
 
 		for (int i = 0; i < splitInputWinningNumber.length; i++) {
+			boolean errorTest = false;
+
+			try{
+				Integer.parseInt(splitInputWinningNumber[i]);
+			} catch (IllegalArgumentException ill) {
+				errorTest = true;
+			}
+
+			if(errorTest) {
+				System.out.println("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
+				throw new IllegalArgumentException("ERROR] 1~45 사이의 숫자만 입력해주세요.");
+			}
+
 			int eachSplitInputWinningNumber = Integer.parseInt(splitInputWinningNumber[i]);
 
 			if (eachSplitInputWinningNumber < 1 || 45 < eachSplitInputWinningNumber) {
+				System.out.println("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
 				throw new IllegalArgumentException("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
 			}
 
@@ -163,7 +177,7 @@ class WinningNumber {
 
 	void bonusNumberTest(int bonusNumber) {
 		if (winningNumberTest.contains(bonusNumber)) {
-
+			System.out.println("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
 			throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
 		}
 	}
