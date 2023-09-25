@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 
+//로또 등수, 맞춘 개수, 상금 정보 저장
 enum Prize {
 	FIFTH("5등", "3개 일치", 5000L), FOURTH("4등", "4개 일치", 50000L), THIRD("3등", "5개 일치", 1500000L), SECOND("2등",
 		"5개 일치, 보너스 볼 일치", 30000000L), FIRST("1등", "6개 일치", 2000000000L);
@@ -29,7 +30,7 @@ public class Application {
 		System.out.printf("구입금액을 입력해 주세요.%n");
 		String inputPurchaseAmount = Console.readLine();
 
-		Purchase purchase = new Purchase();
+		LottoPurchase purchase = new LottoPurchase();
 		int PurchaseTime = purchase.purchaseTime(inputPurchaseAmount);
 
 		List<List<Integer>> lottoList = new ArrayList<>(lottoNumber(PurchaseTime));
@@ -65,6 +66,7 @@ public class Application {
 
 	}
 
+	//구매 횟수 만큼 로또 번호 생성 기능
 	static List<List<Integer>> lottoNumber(int purchaseTime) {
 		List<List<Integer>> lottoList = new ArrayList<>();
 		for (int i = 0; i < purchaseTime; i++) {
@@ -77,6 +79,7 @@ public class Application {
 		return lottoList;
 	}
 
+	//구매 횟수, 구매한 로또 번호 출력 기능
 	static void lottoNumberPrint(List<List<Integer>> lottoList, int purchaseTime) {
 		System.out.println();
 		System.out.println(purchaseTime + "개를 구매했습니다.");
@@ -86,6 +89,7 @@ public class Application {
 		}
 	}
 
+	//구매한 로또의 결과 출력 기능
 	static void lottoResultPrint(List<Integer> lottoResultCount, Prize[] PRIZE_ARR, double lottoEarningRate) {
 		System.out.println();
 		System.out.println("당첨 통계");
@@ -100,15 +104,16 @@ public class Application {
 	}
 }
 
-class Purchase {
+//구매한 로또의 개수를 구하는 기능
+class LottoPurchase {
 	final int LOTTO_PRICE = 1000;
 
-	int purchaseTime(String purchaseAmount) {
+	int purchaseTime(String inputPurchaseAmount) {
 
 		boolean errorTest = false;
 
 		try {
-			Integer.parseInt(purchaseAmount);
+			Integer.parseInt(inputPurchaseAmount);
 		} catch (IllegalArgumentException ill) {
 			errorTest = true;
 		}
@@ -118,21 +123,23 @@ class Purchase {
 			throw new NoSuchElementException("[ERROR] 숫자만 입력해주세요.");
 		}
 
-		int userPurchaseAmount = Integer.parseInt(purchaseAmount);
+		int userPurchaseAmount = Integer.parseInt(inputPurchaseAmount);
 		int PurchaseTest = userPurchaseAmount % LOTTO_PRICE;
 
 		if (!(PurchaseTest == 0)) {
 			System.out.println("[ERROR] 로또는 1000원 단위로 구매 가능합니다.");
 			throw new IllegalArgumentException("[ERROR] 로또는 1000원 단위로 구매 가능합니다.");
 		}
+
 		return userPurchaseAmount / LOTTO_PRICE;
 	}
 }
 
 class WinningNumber {
 
-	List<Integer> winningNumberTest = new ArrayList<>();
+	List<Integer> winningNumber = new ArrayList<>();
 
+	//입력한 당첨 번호를 List에 저장하는 기능
 	List<Integer> winningNumber(String inputWinningNumber) {
 		String[] splitInputWinningNumber = inputWinningNumber.split(",");
 
@@ -157,14 +164,15 @@ class WinningNumber {
 				throw new IllegalArgumentException("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
 			}
 
-			winningNumberTest.add(eachSplitInputWinningNumber);
+			winningNumber.add(eachSplitInputWinningNumber);
 		}
 
-		return winningNumberTest;
+		return winningNumber;
 	}
 
+	//당첨 번호와 보너스 번호에 중복이 있는지 확인하는 기능
 	void bonusNumberTest(int bonusNumber) {
-		if (winningNumberTest.contains(bonusNumber)) {
+		if (winningNumber.contains(bonusNumber)) {
 			System.out.println("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
 			throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
 		}
@@ -172,6 +180,7 @@ class WinningNumber {
 }
 
 class Hit {
+	//구매한 각 로또와 당첨 번호 사이에 일치한 개수를 세주는 기능
 	int hitCount(List<Integer> lottoNumber, List<Integer> winningNumber) {
 		int hitCount = 0;
 		for (int i = 0; i < lottoNumber.size(); i++) {
@@ -182,6 +191,7 @@ class Hit {
 		return hitCount;
 	}
 
+	//구매한 전체 로또가 몇개를 맞췄는지 세주는 기능
 	List<String> winningHitList(List<List<Integer>> lottoList, List<Integer> winningNumber, int bonusNumber) {
 		List<String> winningHitList = new ArrayList<>();
 		for (int i = 0; i < lottoList.size(); i++) {
@@ -199,7 +209,7 @@ class Hit {
 }
 
 class ResultLotto {
-
+	//해당 등수의 로또가 몇개인지 세주는 기능
 	int lottoNumberCount(List<String> winningList, Prize[] PRIZE_ARR, int winningIndex, int prizeIndex, int count) {
 
 		if (winningList.get(winningIndex).equals(PRIZE_ARR[prizeIndex].hit)) {
@@ -207,7 +217,7 @@ class ResultLotto {
 		}
 		return count;
 	}
-
+	//구입한 전체 로또의 각 등수가 몇개 있는제 세주는 기능
 	List<Integer> lottoResultCount(List<String> winningList, Prize[] PRIZE_ARR) {
 		List<Integer> lottoResultCount = new ArrayList<>();
 		for (int i = 0; i < PRIZE_ARR.length; i++) {
@@ -219,7 +229,7 @@ class ResultLotto {
 		}
 		return lottoResultCount;
 	}
-
+	//당첨된 로또 상금을 합산하고 수익률을 계산하는 기능
 	double lottoEarningRate(List<Integer> lottoResultCount, Prize[] PRIZE_ARR, String inputPurchaseAmount) {
 		double sum = 0;
 		double lottoEarningRate;
