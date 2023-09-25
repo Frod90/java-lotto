@@ -60,7 +60,12 @@ public class Application {
 
 		Prize[] PRIZE_ARR = Prize.values();
 
-		resultPrint(winningList, PRIZE_ARR, inputPurchaseAmount);
+		ResultLotto result = new ResultLotto();
+		List<Integer> lottoResultCount = new ArrayList<>(result.lottoResultCount(winningList, PRIZE_ARR));
+
+		double lottoEarningRate = result.lottoEarningRate(lottoResultCount, PRIZE_ARR, inputPurchaseAmount);
+
+		resultPrint(lottoResultCount, PRIZE_ARR, lottoEarningRate);
 
 	}
 
@@ -80,34 +85,18 @@ public class Application {
 		return lottoList;
 	}
 
-	static int resultCount(List<String> winningList, Prize[] PRIZE_ARR, int winningIndex, int prizeIndex, int count) {
-
-		if (winningList.get(winningIndex).equals(PRIZE_ARR[prizeIndex].hit)) {
-			++count;
-		}
-		return count;
-	}
-
-	static void resultPrint(List<String> winningList, Prize[] PRIZE_ARR, String inputPurchaseAmount) {
+	static void resultPrint(List<Integer> lottoResultCount, Prize[] PRIZE_ARR, double lottoEarningRate) {
 		System.out.println();
 		System.out.println("당첨 통계");
 		System.out.println("---");
 
-		double sum = 0;
-
 		for (int i = 0; i < PRIZE_ARR.length; i++) {
-			int resultCount = 0;
-			for (int j = 0; j < winningList.size(); j++) {
-				resultCount = resultCount(winningList, PRIZE_ARR, j, i, resultCount);
-			}
-			sum = sum + PRIZE_ARR[i].money * resultCount;
-			System.out.printf("%s (%,d원) - %d개%n", PRIZE_ARR[i].hit, PRIZE_ARR[i].money, resultCount);
+
+			System.out.printf("%s (%,d원) - %d개%n", PRIZE_ARR[i].hit, PRIZE_ARR[i].money, lottoResultCount.get(i));
 
 		}
 
-		double purchaseAmount = Double.parseDouble(inputPurchaseAmount);
-		double summary = sum / purchaseAmount;
-		System.out.printf("총 수익률은 %.1f%%입니다.", summary * 100);
+		System.out.printf("총 수익률은 %.1f%%입니다.", lottoEarningRate * 100);
 
 	}
 }
@@ -151,13 +140,13 @@ class WinningNumber {
 		for (int i = 0; i < splitInputWinningNumber.length; i++) {
 			boolean errorTest = false;
 
-			try{
+			try {
 				Integer.parseInt(splitInputWinningNumber[i]);
 			} catch (IllegalArgumentException ill) {
 				errorTest = true;
 			}
 
-			if(errorTest) {
+			if (errorTest) {
 				System.out.println("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
 				throw new IllegalArgumentException("ERROR] 1~45 사이의 숫자만 입력해주세요.");
 			}
@@ -210,5 +199,41 @@ class Hit {
 	}
 }
 
+class ResultLotto {
+
+	int lottoNumberCount(List<String> winningList, Prize[] PRIZE_ARR, int winningIndex, int prizeIndex, int count) {
+
+		if (winningList.get(winningIndex).equals(PRIZE_ARR[prizeIndex].hit)) {
+			++count;
+		}
+		return count;
+	}
+
+	List<Integer> lottoResultCount(List<String> winningList, Prize[] PRIZE_ARR) {
+		List<Integer> lottoResultCount = new ArrayList<>();
+		for (int i = 0; i < PRIZE_ARR.length; i++) {
+			int resultCount = 0;
+			for (int j = 0; j < winningList.size(); j++) {
+				resultCount = lottoNumberCount(winningList, PRIZE_ARR, j, i, resultCount);
+			}
+			lottoResultCount.add(resultCount);
+		}
+		return lottoResultCount;
+	}
+
+	double lottoEarningRate(List<Integer> lottoResultCount, Prize[] PRIZE_ARR, String inputPurchaseAmount) {
+		double sum = 0;
+		double lottoEarningRate;
+
+		for (int i = 0; i < lottoResultCount.size(); i++) {
+			sum = sum + PRIZE_ARR[i].money * lottoResultCount.get(i);
+		}
+
+		double purchaseAmount = Double.parseDouble(inputPurchaseAmount);
+		lottoEarningRate = sum / purchaseAmount;
+
+		return lottoEarningRate;
+	}
+}
 
 
