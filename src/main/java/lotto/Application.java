@@ -31,8 +31,7 @@ public class Application {
 
 		Purchase purchase = new Purchase();
 
-		int PurchaseTime;
-		PurchaseTime = purchase.purchaseTime(inputPurchaseAmount);
+		int PurchaseTime = purchase.purchaseTime(inputPurchaseAmount);
 
 		System.out.println();
 		System.out.println(PurchaseTime + "개를 구매했습니다.");
