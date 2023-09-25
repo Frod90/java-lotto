@@ -38,6 +38,7 @@ public class Application {
 		System.out.println(PurchaseTime + "개를 구매했습니다.");
 
 		List<List<Integer>> lottoList = new ArrayList<>(lottoNumber(PurchaseTime));
+		lottoNumberPrint(lottoList, PurchaseTime);
 
 		System.out.println();
 
@@ -65,7 +66,7 @@ public class Application {
 
 		double lottoEarningRate = result.lottoEarningRate(lottoResultCount, PRIZE_ARR, inputPurchaseAmount);
 
-		resultPrint(lottoResultCount, PRIZE_ARR, lottoEarningRate);
+		lottoResultPrint(lottoResultCount, PRIZE_ARR, lottoEarningRate);
 
 	}
 
@@ -78,22 +79,23 @@ public class Application {
 			lottoList.add(lottoNumber);
 		}
 
-		for (int i = 0; i < purchaseTime; i++) {
-			System.out.println(lottoList.get(i));
-		}
-
 		return lottoList;
 	}
 
-	static void resultPrint(List<Integer> lottoResultCount, Prize[] PRIZE_ARR, double lottoEarningRate) {
+	static void lottoNumberPrint(List<List<Integer>> lottoList, int purchaseTime) {
+
+		for (int i = 0; i < purchaseTime; i++) {
+			System.out.println(lottoList.get(i));
+		}
+	}
+
+	static void lottoResultPrint(List<Integer> lottoResultCount, Prize[] PRIZE_ARR, double lottoEarningRate) {
 		System.out.println();
 		System.out.println("당첨 통계");
 		System.out.println("---");
 
 		for (int i = 0; i < PRIZE_ARR.length; i++) {
-
 			System.out.printf("%s (%,d원) - %d개%n", PRIZE_ARR[i].hit, PRIZE_ARR[i].money, lottoResultCount.get(i));
-
 		}
 
 		System.out.printf("총 수익률은 %.1f%%입니다.", lottoEarningRate * 100);
