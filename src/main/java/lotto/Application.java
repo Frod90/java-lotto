@@ -30,11 +30,7 @@ public class Application {
 		String inputPurchaseAmount = Console.readLine();
 
 		Purchase purchase = new Purchase();
-
 		int PurchaseTime = purchase.purchaseTime(inputPurchaseAmount);
-
-		System.out.println();
-		System.out.println(PurchaseTime + "개를 구매했습니다.");
 
 		List<List<Integer>> lottoList = new ArrayList<>(lottoNumber(PurchaseTime));
 		lottoNumberPrint(lottoList, PurchaseTime);
@@ -82,6 +78,8 @@ public class Application {
 	}
 
 	static void lottoNumberPrint(List<List<Integer>> lottoList, int purchaseTime) {
+		System.out.println();
+		System.out.println(purchaseTime + "개를 구매했습니다.");
 
 		for (int i = 0; i < purchaseTime; i++) {
 			System.out.println(lottoList.get(i));
