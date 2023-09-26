@@ -14,7 +14,7 @@ public class HitTest {
 
 	@DisplayName("로또 번호와 당첨 번호 사이에 일치한 번호의 개수를 정확하게 세주는지 확인한다.")
 	@Test
-	void hitCountTest() {
+	void winningHitListTest() {
 		List<List<Integer>> lottoListTest = new ArrayList<>();
 		List<Integer> lottoListTest1 = List.of(1, 2, 3, 4, 5, 6);
 		List<Integer> lottoListTest2 = List.of(1, 2, 3, 7, 8, 9);

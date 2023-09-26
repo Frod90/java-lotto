@@ -56,7 +56,7 @@ public class Application {
 		Hit hit = new Hit();
 		List<String> winningList = hit.winningHitList(lottoList, winningNumber, bonusNumber);
 
-		Prize[] PRIZE_ARR = Prize.values();
+		final Prize[] PRIZE_ARR = Prize.values();
 
 		ResultLotto result = new ResultLotto();
 		List<Integer> lottoResultCount = new ArrayList<>(result.lottoResultCount(winningList, PRIZE_ARR));
