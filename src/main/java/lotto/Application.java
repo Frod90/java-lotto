@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
@@ -50,7 +51,7 @@ public class Application {
 		System.out.printf("보너스 번호를 입력해 주세요.%n");
 		String inputBonusNumber = Console.readLine();
 		int bonusNumber = Integer.parseInt(inputBonusNumber);
-		win.bonusNumberTest(bonusNumber);
+		win.bonusNumberTest(winningNumber,bonusNumber);
 
 		Hit hit = new Hit();
 		List<String> winningList = hit.winningHitList(lottoList, winningNumber, bonusNumber);
@@ -143,21 +144,26 @@ class WinningNumber {
 	List<Integer> winningNumber(String inputWinningNumber) {
 		String[] splitInputWinningNumber = inputWinningNumber.split(",");
 
+		if(splitInputWinningNumber.length !=6) {
+			System.out.println("[ERROR] 각각을 \",\"로 구분한 6개의 숫자만 입력해 주세요. Ex) 1,2,3,4,5,6");
+			throw new IllegalArgumentException("[ERROR] 각각을 \",\"로 구분한 6개의 숫자만 입력해 주세요. Ex) 1,2,3,4,5,6");
+		}
+
 		for (int i = 0; i < splitInputWinningNumber.length; i++) {
 			boolean errorTest = false;
 
 			try {
-				Integer.parseInt(splitInputWinningNumber[i]);
+				Integer.parseInt(splitInputWinningNumber[i].trim());
 			} catch (IllegalArgumentException ill) {
 				errorTest = true;
 			}
 
 			if (errorTest) {
 				System.out.println("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
-				throw new IllegalArgumentException("ERROR] 1~45 사이의 숫자만 입력해주세요.");
+				throw new IllegalArgumentException("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
 			}
 
-			int eachSplitInputWinningNumber = Integer.parseInt(splitInputWinningNumber[i]);
+			int eachSplitInputWinningNumber = Integer.parseInt(splitInputWinningNumber[i].trim());
 
 			if (eachSplitInputWinningNumber < 1 || 45 < eachSplitInputWinningNumber) {
 				System.out.println("[ERROR] 1~45 사이의 숫자만 입력해주세요.");
@@ -167,11 +173,16 @@ class WinningNumber {
 			winningNumber.add(eachSplitInputWinningNumber);
 		}
 
+		if(Set.copyOf(winningNumber).size() != 6 ) {
+			System.out.println("[ERROR] 중복되지 않는 6자리의 숫자만 입력해주세요.");
+			throw new IllegalArgumentException("[ERROR] 중복되지 않는 6자리의 숫자만 입력해주세요.");
+		}
+
 		return winningNumber;
 	}
 
 	//당첨 번호와 보너스 번호에 중복이 있는지 확인하는 기능
-	void bonusNumberTest(int bonusNumber) {
+	void bonusNumberTest(List<Integer> winningNumber, int bonusNumber) {
 		if (winningNumber.contains(bonusNumber)) {
 			System.out.println("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
 			throw new IllegalArgumentException("[ERROR] 보너스 번호가 당첨 번호에 포함되어 있습니다.");
